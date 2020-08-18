@@ -1,6 +1,7 @@
-from drs_client.models import DrsObject
+from drs_client.models import AccessURL, DrsObject, PostDrsObject
 from pydantic import BaseModel
 import requests
+import json
 
 
 class DRSClient(BaseModel):
@@ -14,17 +15,31 @@ class DRSClient(BaseModel):
         """TODO"""
         request_url = f"http://{self.url}/objects/{object_id}"
         req = requests.get(url=request_url)
-        obj = DrsObject(**req.json())
-        return obj.json()
+        # obj = DrsObject(**req.json())  # validate
+        return req.json()
 
 
-    def get_access_url(object_id, access_id):
-        return None
+    def get_access_url(self, object_id, access_id):
+        """TODO"""
+        request_url = f"http://{self.url}/objects/{object_id}/access/{access_id}"
+        req = requests.get(url=request_url)
+        # obj = AccessURL(**req.json())
+        return req.json()
 
 
-    def post_object(object):
-        return None
+    def post_object(self, object_data):
+        """TODO"""
+        request_url = f"http://{self.url}/objects"
+        # data = PostDrsObject(**object_data)
+        # print(data.json())
+        # print(type(data.dict()))
+        req = requests.post(url=request_url, json = object_data)
+        # print(req)
+        return req.json()
 
 
-    def delete_object(object_id):
-        return None
+    def delete_object(self, object_id):
+        """TODO"""
+        request_url = f"http://{self.url}/objects/{object_id}"
+        req = requests.delete(url=request_url)
+        return req.json()
