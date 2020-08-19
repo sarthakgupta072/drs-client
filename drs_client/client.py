@@ -15,7 +15,8 @@ class DRSClient(BaseModel):
         """TODO"""
         request_url = f"http://{self.url}/objects/{object_id}"
         req = requests.get(url=request_url)
-        # obj = DrsObject(**req.json())  # validate
+        if req:
+            DrsObject(**req.json())  # validate icoming payload
         return req.json()
 
 
@@ -23,16 +24,15 @@ class DRSClient(BaseModel):
         """TODO"""
         request_url = f"http://{self.url}/objects/{object_id}/access/{access_id}"
         req = requests.get(url=request_url)
-        # obj = AccessURL(**req.json())
+        if req: 
+            AccessURL(**req.json())  # validate incoming payload
         return req.json()
 
 
     def post_object(self, object_data):
         """TODO"""
         request_url = f"http://{self.url}/objects"
-        # data = PostDrsObject(**object_data)
-        # print(data.json())
-        # print(type(data.dict()))
+        PostDrsObject(**object_data)  # validate outgoing payload
         req = requests.post(url=request_url, json = object_data)
         # print(req)
         return req.json()

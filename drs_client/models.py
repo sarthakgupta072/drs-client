@@ -73,7 +73,7 @@ class AccessMethod(BaseModel):
     )
     access_url: Optional[AccessURL] = None
     region: Optional[str] = Field(
-        None,
+        "",
         description='Name of the region in the cloud service provider that the object belongs to.',
     )
     type: Type = Field(..., description='Type of the access method.')
@@ -94,7 +94,7 @@ class DrsObject(BaseModel):
         description='The list of access methods that can be used to fetch the `DrsObject`.\nRequired for single blobs; optional for bundles.',
     )
     aliases: Optional[List[str]] = Field(
-        [None],
+        [],
         description='A list of strings that can be used to find other metadata about this `DrsObject` from external metadata sources. These aliases can be used to represent secondary accession numbers or external GUIDs.',
     )
     checksums: List[Checksum] = Field(
@@ -102,7 +102,7 @@ class DrsObject(BaseModel):
         description='The checksum of the `DrsObject`. At least one checksum must be provided.\nFor blobs, the checksum is computed over the bytes in the blob.\n\nFor bundles, the checksum is computed over a sorted concatenation of the checksums of its top-level contained objects (not recursive, names not included). The list of checksums is sorted alphabetically (hex-code) before concatenation and a further checksum is performed on the concatenated checksum value.\n\nFor example, if a bundle contains blobs with the following checksums:\nmd5(blob1) = 72794b6d\nmd5(blob2) = 5e089d29\n\nThen the checksum of the bundle is:\nmd5( concat( sort( md5(blob1), md5(blob2) ) ) )\n= md5( concat( sort( 72794b6d, 5e089d29 ) ) )\n= md5( concat( 5e089d29, 72794b6d ) )\n= md5( 5e089d2972794b6d )\n= f7a29a04',
     )
     contents: Optional[List[ContentsObject]] = Field(
-        None,
+        "",
         description='If not set, this `DrsObject` is a single blob.\nIf set, this `DrsObject` is a bundle containing the listed `ContentsObject` s (some of which may be further nested).',
     )
     created_time: datetime = Field(
@@ -110,14 +110,14 @@ class DrsObject(BaseModel):
         description='Timestamp of content creation in RFC3339.\n(This is the creation time of the underlying content, not of the JSON object.)',
     )
     description: Optional[str] = Field(
-        None, description='A human readable description of the `DrsObject`.'
+        "", description='A human readable description of the `DrsObject`.'
     )
     id: str = Field(..., description='An identifier unique to this `DrsObject`.')
     mime_type: Optional[str] = Field(
-        None, description='A string providing the mime-type of the `DrsObject`.'
+        "", description='A string providing the mime-type of the `DrsObject`.'
     )
     name: Optional[str] = Field(
-        None,
+        "",
         description='A string that can be used to name a `DrsObject`.\nThis string is made up of uppercase and lowercase letters, decimal digits, hypen, period, and underscore [A-Za-z0-9.-_]. See http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_282[portable filenames].',
     )
     self_uri: str = Field(
@@ -133,7 +133,7 @@ class DrsObject(BaseModel):
         description='Timestamp of content update in RFC3339, identical to `created_time` in systems that do not support updates. (This is the update time of the underlying content, not of the JSON object.)',
     )
     version: Optional[str] = Field(
-        None,
+        "",
         description='A string representing a version.\n(Some systems may use checksum, a RFC3339 timestamp, or an incrementing version number.)',
     )
 
