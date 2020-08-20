@@ -20,7 +20,7 @@ class Type(Enum):
 
 class AccessURL(BaseModel):
     headers: Optional[List[str]] = Field(
-        None,
+        [],
         description='An optional list of headers to include in the HTTP request to `url`. These headers can be used to provide auth tokens required to fetch the object bytes.',
     )
     url: str = Field(
@@ -41,15 +41,15 @@ class Checksum(BaseModel):
 
 class ContentsObject(BaseModel):
     contents: Optional[List[ContentsObject]] = Field(
-        None,
+        [],
         description='If this ContentsObject describes a nested bundle and the caller specified "?expand=true" on the request, then this contents array must be present and describe the objects within the nested bundle.',
     )
     drs_uri: Optional[List[str]] = Field(
-        None,
+        [],
         description='A list of full DRS identifier URI paths that may be used to obtain the object. These URIs may be external to this DRS instance.',
     )
     id: Optional[str] = Field(
-        None,
+        "",
         description='A DRS identifier of a `DrsObject` (either a single blob or a nested bundle). If this ContentsObject is an object within a nested bundle, then the id is optional. Otherwise, the id is required.',
     )
     name: str = Field(
@@ -68,7 +68,7 @@ class Error(BaseModel):
 
 class AccessMethod(BaseModel):
     access_id: Optional[str] = Field(
-        None,
+        "",
         description='An arbitrary string to be passed to the `/access` method to get an `AccessURL`. This string must be unique within the scope of a single object. Note that at least one of `access_url` and `access_id` must be provided.',
     )
     access_url: Optional[AccessURL] = None
@@ -102,7 +102,7 @@ class DrsObject(BaseModel):
         description='The checksum of the `DrsObject`. At least one checksum must be provided.\nFor blobs, the checksum is computed over the bytes in the blob.\n\nFor bundles, the checksum is computed over a sorted concatenation of the checksums of its top-level contained objects (not recursive, names not included). The list of checksums is sorted alphabetically (hex-code) before concatenation and a further checksum is performed on the concatenated checksum value.\n\nFor example, if a bundle contains blobs with the following checksums:\nmd5(blob1) = 72794b6d\nmd5(blob2) = 5e089d29\n\nThen the checksum of the bundle is:\nmd5( concat( sort( md5(blob1), md5(blob2) ) ) )\n= md5( concat( sort( 72794b6d, 5e089d29 ) ) )\n= md5( concat( 5e089d29, 72794b6d ) )\n= md5( 5e089d2972794b6d )\n= f7a29a04',
     )
     contents: Optional[List[ContentsObject]] = Field(
-        "",
+        [],
         description='If not set, this `DrsObject` is a single blob.\nIf set, this `DrsObject` is a bundle containing the listed `ContentsObject` s (some of which may be further nested).',
     )
     created_time: datetime = Field(
